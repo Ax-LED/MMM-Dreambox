@@ -1,4 +1,4 @@
-# MMM-Navigate
+# MMM-Dreambox
 A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMirror 
 
 ## Installing the module
