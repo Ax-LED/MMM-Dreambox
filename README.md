@@ -76,11 +76,11 @@ The following properties can be configured:
 
    ## Further options
    You can communication with this module also by sending notifications.
-   Examples:
-   <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-SERVICE-NEXT</code> selects the next service in your list
-   <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-SERVICE-PREV</code> selects the previous service in your list
-   <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-PLAY</code> starts streaming the selected service with omxplayer
-   <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-STOP</code> stops streaming and quiting omxplayer
+   <br>Examples:
+   - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-SERVICE-NEXT</code> selects the next service in your list
+   - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-SERVICE-PREV</code> selects the previous service in your list
+   - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-PLAY</code> starts streaming the selected service with omxplayer
+   - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-STOP</code> stops streaming and quiting omxplayer
 
    ## Version
    1.0 initial release
