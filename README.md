@@ -1,5 +1,5 @@
 # MMM-Dreambox
-A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMirror.
+A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMirror. You can select services of your dreambox and stream them via omxplayer.
 
 ## Installing the module
 Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~MagicMirror/modules/ )`:
