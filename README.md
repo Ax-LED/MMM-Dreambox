@@ -3,6 +3,7 @@ A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMi
 - model of your dreambox
 - which service is tuned right now / are there active timer
 - epg for the services with its starting time
+![Magic-Mirror Module MMM-Dreambox screenshot1](https://raw.githubusercontent.com/Ax-LED/MMM-Dreambox/master/MMM-Dreambox_screenshot1.jpg)
 
 ## Installing the module
 Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~MagicMirror/modules/ )`:
