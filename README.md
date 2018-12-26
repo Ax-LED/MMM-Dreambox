@@ -1,5 +1,5 @@
 # MMM-Dreambox
-A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMirror 
+A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMirror.
 
 ## Installing the module
 Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~MagicMirror/modules/ )`:
@@ -42,15 +42,15 @@ The following properties can be configured:
 	<tbody>
 		<tr>
 			<td><code>apiBase</code></td>
-			<td>URL and port of your Dreambox or Enigma2 Receiver</td>
+			<td>URL and port of your Dreambox or Enigma2 Receiver.</td>
 		</tr>
 		<tr>
 			<td><code>refreshInterval</code></td>
-			<td>How often should the datas be refreshed</td>
+			<td>How often should the datas be refreshed.</td>
 		</tr>
 		<tr>
 			<td><code>apiabout</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>about</code> datas can be found. Test if http://Ipofyourdreambox:port/web/about shows xml datas in a browser within the same network of your Dreambox.</td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>about</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/about](http://Ipofyourdreambox:port/web/about) shows xml datas in a browser within the same network of your Dreambox.</td>
 		</tr>
 		<tr>
 			<td><code>apiservices</code></td>
