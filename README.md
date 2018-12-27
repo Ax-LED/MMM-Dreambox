@@ -27,6 +27,7 @@ To use this module, add it to the modules array in the `config/config.js` file:
 			position: 'top_left',
 			config: {
 				apiBase: 'http://Ipofyourdreambox:port',
+				omxargs: ' --win 320,180,1600,900  -o both ',
 				refreshInterval: 1000 * 30, //refresh every 30 seconds
 				apiabout: '/web/about',
 				apiservices: '/web/getallservices',
@@ -53,6 +54,10 @@ The following properties can be configured:
 		<tr>
 			<td><code>apiBase</code></td>
 			<td>URL and port of your Dreambox or Enigma2 Receiver.</td>
+		</tr>
+		<tr>
+			<td><code>omxargs</code></td>
+			<td>Arguments for the omxplayer. Attention, <b>leading</b> and <b>last</b> blanks are required.</td>
 		</tr>
 		<tr>
 			<td><code>refreshInterval</code></td>
