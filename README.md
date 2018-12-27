@@ -6,6 +6,8 @@ A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMi
 
 ![Magic-Mirror Module MMM-Dreambox screenshot1](https://raw.githubusercontent.com/Ax-LED/MMM-Dreambox/master/MMM-Dreambox_screenshot1.jpg)
 
+## Requirements
+omxplayer: Omxplayer is normally already installed on raspbian. You can check it by commmanline: ````javascript which omxplayer````. The result should be a path like ````javascript /usr/bin/omxplayer````.
 ## Installing the module
 Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~/MagicMirror/modules/ )`:
 ````javascript
