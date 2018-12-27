@@ -7,7 +7,7 @@ A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMi
 ![Magic-Mirror Module MMM-Dreambox screenshot1](https://raw.githubusercontent.com/Ax-LED/MMM-Dreambox/master/MMM-Dreambox_screenshot1.jpg)
 
 ## Installing the module
-Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~MagicMirror/modules/ )`:
+Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~/MagicMirror/modules/ )`:
 ````javascript
 git clone https://github.com/Ax-LED/MMM-Dreambox
 ````
