@@ -8,6 +8,7 @@ A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMi
 
 ## Requirements
 <b>omxplayer:</b> Omxplayer is normally already installed on raspbian. You can check it by commmanline ````which omxplayer````. The result should be a path like ````/usr/bin/omxplayer````.
+<br>
 <b>MPG2 Codec</b>: On my Dreambox (dm800se) for streaming HD stations the mpg2 codec was necessary. You can check this by commandline ````vcgencmd codec_enabled MPG2````. The result can either be ````MPG2=enabled```` or ````MPG2=disabled````. If case "disabled" and if you want to stream mpg2 you have to buy a codec on [http://www.raspberrypi.com/mpeg-2-license-key/](http://www.raspberrypi.com/mpeg-2-license-key/).
 
 ## Installing the module
