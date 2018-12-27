@@ -57,7 +57,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>omxargs</code></td>
-			<td>Arguments for the omxplayer. Attention, <b>leading</b> and <b>last</b> blanks are required.</td>
+			<td>Arguments for the omxplayer, like ````' --win 320,180,1600,900  -o both '````. Attention, <b>leading</b> and <b>last</b> blanks are required.</td>
 		</tr>
 		<tr>
 			<td><code>refreshInterval</code></td>
