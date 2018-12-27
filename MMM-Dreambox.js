@@ -124,15 +124,6 @@ Module.register('MMM-Dreambox', {
 		return wrapper;
 	},
 
-	/*epg: function(json, match) {
-		for (let index = 0; index < json.length; index++) {
-			if(json[index].e2eventservicereference === match){
-				title = json[index].e2eventtitle;
-			}
-		}
-		return title;
-	},*/
-
 	nextselection: function (selected, direction) {
 		//console.log('Axled onlyplayable in function nextselection:',onlyplayable);
 		if (onlyplayable === true){
@@ -231,15 +222,15 @@ Module.register('MMM-Dreambox', {
 	
 	//Helper, to use module with notification system
     notificationReceived: function(notification, payload) {
-		if(notification === "DB-SERVICE-NEXT1"){
+		if(notification === "DB-SERVICE-NEXT"){
 			serviceselected = this.nextselection(serviceselected,'+');
 		}
 
-		if(notification === "DB-SERVICE-PREV1"){
+		if(notification === "DB-SERVICE-PREV"){
 			serviceselected = this.nextselection(serviceselected,'-');
 		}
 
-		if(notification === "DB-PLAY1"){
+		if(notification === "DB-PLAY"){
 			document.getElementById(serviceselected).setAttribute('class','selected play');
 			if (onlyplayable === true){
 				//add zap information
@@ -247,68 +238,10 @@ Module.register('MMM-Dreambox', {
 			} else {
 				payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
 			}
-			console.log('Axled DB-PLAY1:',payload);
-			this.sendSocketNotification('DB-PLAY1', payload);
+			//console.log('Axled DB-PLAY1:',payload);
+			this.sendSocketNotification('DB-PLAY', payload);
 		}
 		
-		/*if(notification === "DB-SERVICE-NEXT"){
-			//axled neu
-
-			if (onlyplayable === true){
-				console.log('AxLED onlyplayable erreicht');
-				//var x = document.getElementsByClassName('MMM-Dreambox')[2].id;
-				//var x = document.getElementsByClassName('db');
-				//getElementsByTagName("p")
-				//var x = document.getElementsByTagName('div');
-				//document.querySelectorAll('ul.active')
-				var x = document.querySelectorAll('div.db');
-				console.log('Axled ID von db',x,' Länge: ',x.length);
-				console.log('axled nextselection:', this.nextselection(serviceselected));
-				serviceselected = this.nextselection(serviceselected)-1;
-			}
-
-			if (serviceselected == ''){
-				//set first service as selected, otherwise no service can be selected if a movie from hdd is running
-				serviceselected = 0;
-				document.getElementById(serviceselected).setAttribute('class','selected');
-				//console.log('AxLED serviceselected, ersten Wert gesetzt, da Wiedergabe läuft:',serviceselected);
-			} 
-			//axled neu
-	
-			document.getElementById(serviceselected).removeAttribute('class');
-			if (serviceselected === this.anzahl-1){
-				serviceselected = 0;
-			} else {
-				serviceselected = serviceselected+1;
-			}
-			document.getElementById(serviceselected).setAttribute('class','selected');
-		}*/
-
-		/*if(notification === "DB-SERVICE-PREV"){
-			//axled neu
-			if (serviceselected == ''){
-				//set first service as selected, otherwise no service can be selected if a movie from hdd is running
-				serviceselected = 0;
-				document.getElementById(serviceselected).setAttribute('class','selected');
-				//console.log('AxLED serviceselected, ersten Wert gesetzt, da Wiedergabe läuft:',serviceselected);
-			} 
-			//axled neu
-			//document.getElementById(serviceselected).setAttribute('class','');
-			document.getElementById(serviceselected).removeAttribute('class');
-			if (serviceselected === 0){
-				serviceselected = parseInt(this.anzahl)-1;
-				//document.getElementById(serviceselected).setAttribute('class','MMM-Dreambox-selected');
-			} else {
-				serviceselected = serviceselected-1;
-			}
-			document.getElementById(serviceselected).setAttribute('class','selected');
-		}*/
-
-		/*if(notification === "DB-PLAY"){
-			document.getElementById(serviceselected).setAttribute('class','selected play');
-			payload = this.sender[parseInt(serviceselected)].e2servicereference;
-			this.sendSocketNotification('DB-PLAY', payload);
-		}*/
 		if(notification === "DB-STOP"){
 			this.sendSocketNotification('DB-STOP', payload);
 		}
@@ -376,7 +309,7 @@ Module.register('MMM-Dreambox', {
 			this.sendSocketNotification("FETCH_DATA", '');
 			//console.log(moment().format('LTS'),': Axled Interval ausgelöst.');
 			}, interval);
-			console.log('Axled Intervall ID:',IntervalID);
+			//console.log('Axled Intervall ID:',IntervalID);
 		}
 	}
 

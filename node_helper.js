@@ -35,7 +35,7 @@ module.exports = NodeHelper.create({
 			console.log("Starting node helper for: " + self.name);
 		} 
 
-		if (notification === "DB-PLAY") {
+		/*if (notification === "DB-PLAY") {
 			var myUrl = this.config.apiBase;
 			request({url: myUrl+this.config.apizap+payload }, function (error, response, body) {
 				if (!error && response.statusCode == 200) {
@@ -47,11 +47,11 @@ module.exports = NodeHelper.create({
 					self.getData2();
 				}
 			});
-		}
+		}*/
 
-		if (notification === "DB-PLAY1") {
+		if (notification === "DB-PLAY") {
 			if (payload[1] === 'zap') {
-				console.log('Axled payload enthält zap');
+				//console.log('Axled payload enthält zap');
 				var myUrl = this.config.apiBase;
 				request({url: myUrl+this.config.apizap+payload[0] }, function (error, response, body) {
 					if (!error && response.statusCode == 200) {
@@ -59,18 +59,18 @@ module.exports = NodeHelper.create({
 						//omx.play("modules/MMM-Podcast/video.mp4");
 						//exec('omxplayer --live --win 320,180,1600,900 -o hdmi '+self.config.apiBase+':8001/'+payload, null);
 						//exec('curl http://dm800se.fritz.box/web/remotecontrol?command=352',null);//send remote control Button "OK", because of question while zapping when somebody watches recorded movies meanwhile
-						exec('omxplayer --win 320,180,1600,900 -o hdmi '+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
+						exec('omxplayer --win 320,180,1600,900 -o both '+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
 					}
 				});
 			} else {
-				console.log('Axled payload enthält kein zap');
-				exec('omxplayer --win 320,180,1600,900 -o hdmi '+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
+				//console.log('Axled payload enthält kein zap');
+				exec('omxplayer --win 320,180,1600,900 -o both '+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
 			}
 			self.getData2();
 		}
 
 		if (notification === "DB-STOP") {
-			console.log('Axled: test');
+			//console.log('Axled: test');
 			exec('pkill omxplayer', null);
 		}
 
