@@ -76,7 +76,7 @@ Module.register('MMM-Dreambox', {
 		if (this.timerstring != undefined){
 			ServiceItem3.innerHTML = '- '+ this.timerstring;
 		} else {
-			ServiceItem3.innerHTML = '- dezeit läuft: (' +this.tuned + ')';
+			ServiceItem3.innerHTML = '- derzeit läuft: (' +this.tuned + ')';
 		}
 
 		var Separator = document.createElement("hr");
