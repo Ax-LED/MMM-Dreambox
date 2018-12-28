@@ -69,7 +69,11 @@ module.exports = NodeHelper.create({
 				body_epgnow = body;
 				self.sendSocketNotification("DATA",['DB-EPGNOW',body_epgnow]);
 			} else {
-				Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiepgnow;
+				if (!error && response.statusCode == 404){//because sometimes error is null
+					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiepgnow;
+				} else {
+					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiepgnow;
+				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
 		});
@@ -79,7 +83,11 @@ module.exports = NodeHelper.create({
 				body_about = body;
 				self.sendSocketNotification("DATA",['DB-ABOUT',body_about]);
 			} else {
-				Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiabout;
+				if (!error && response.statusCode == 404){
+					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiabout;
+				} else {
+					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiabout;
+				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
 		});
@@ -89,7 +97,11 @@ module.exports = NodeHelper.create({
 				body_services = body;
 				self.sendSocketNotification("DATA",['DB-SERVICES',body_services]);
 			} else {
-				Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiservices;
+				if (!error && response.statusCode == 404){
+					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiservices;
+				} else {
+					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiservices;
+				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
 		});
@@ -98,7 +110,11 @@ module.exports = NodeHelper.create({
 			if (!error && response.statusCode == 200) {
 				self.sendSocketNotification("DATA",['DB-TIMER',body]);
 			} else {
-				Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiservices;
+				if (!error && response.statusCode == 404){
+					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiTimerlist;
+				} else {
+					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiTimerlist;
+				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
 		});
@@ -107,7 +123,11 @@ module.exports = NodeHelper.create({
 			if (!error && response.statusCode == 200) {
 				self.sendSocketNotification("DATA",['DB-SLP',body]);
 			} else {
-				Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiservices;
+				if (!error && response.statusCode == 404){
+					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiServicelistplayable;
+				} else {
+					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiServicelistplayable;
+				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
 		});

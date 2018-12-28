@@ -52,13 +52,24 @@ Module.register('MMM-Dreambox', {
 		var wrapper = document.createElement("div");
 
 		//First Line
+		//Errorhandling
+		if (this.Errormessage != undefined){
+			var ServiceItem4 = document.createElement("div");
+			ServiceItem4.setAttribute('class', 'float');
+			ServiceItem4.innerHTML = this.Errormessage;
+			var Separator = document.createElement("hr");
+			Separator.setAttribute('class', 'db');
+			wrapper.appendChild(ServiceItem4);
+			wrapper.appendChild(Separator);
+		}
+		
 		var ServiceItem2 = document.createElement("div");
 		ServiceItem2.setAttribute('class', 'float');
 		if (this.model != undefined) {
 			ServiceItem2.innerHTML = 'Modell: ' +this.model+ '&nbsp;';
-		} else if (this.Errormessage != undefined){
+		} /*else if (this.Errormessage != undefined){
 			ServiceItem2.innerHTML = this.Errormessage;
-		}
+		}*/
 		
 		var ServiceItem3 = document.createElement("div");
 		ServiceItem3.setAttribute('class', 'float');
