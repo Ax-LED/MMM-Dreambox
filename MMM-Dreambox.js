@@ -226,8 +226,15 @@ Module.register('MMM-Dreambox', {
 				} else if(payload[0]==='DB-SERVICES'){
 					this.dataRequest = "DB-SERVICES";
 					var json=xml2json(payload[1]);
-					this.sender = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service;
-					this.anzahl = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service.length;
+					//console.log('Axled Länge Bouquet: '+json.e2servicelistrecursive.e2bouquet.length);
+					//Test if more than one bouquet
+					if (json.e2servicelistrecursive.e2bouquet.length != undefined){//show only first bouquet
+						this.sender = json.e2servicelistrecursive.e2bouquet[0].e2servicelist.e2service;
+						this.anzahl = json.e2servicelistrecursive.e2bouquet[0].e2servicelist.e2service.length;
+					} else {
+						this.sender = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service;
+						this.anzahl = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service.length;
+					}
 					this.updateDom();
 				} else if(payload[0]==='ERROR'){
 					this.dataRequest = "ERROR";
