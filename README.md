@@ -10,6 +10,8 @@ A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMi
 <b>omxplayer:</b> Omxplayer is normally already installed on raspbian. You can check it by commmanline ````which omxplayer````. The result should be a path like ````/usr/bin/omxplayer````.
 <br>
 <b>MPG2 Codec</b>: On my Dreambox (dm800se) for streaming HD stations the mpg2 codec was necessary. You can check this by commandline ````vcgencmd codec_enabled MPG2````. The result can either be ````MPG2=enabled```` or ````MPG2=disabled````. If case "disabled" and if you want to stream mpg2 you have to buy a codec on [http://www.raspberrypi.com/mpeg-2-license-key/](http://www.raspberrypi.com/mpeg-2-license-key/).
+<br>
+<b>MMM-Remote-Control:</b> [MMM-Remote-Control](https://github.com/Jopyth/MMM-Remote-Control) is required, if you want to use the sample links for communication, as mentioned at the end of this file.
 
 ## Installing the module
 Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~/MagicMirror/modules/ )`:
@@ -96,6 +98,8 @@ The following properties can be configured:
    - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-SERVICE-PREV</code> selects the previous service in your list
    - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-PLAY</code> starts streaming the selected service with omxplayer
    - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-STOP</code> stops streaming and quiting omxplayer
+   
+   To use this examples the module [MMM-Remote-Control](https://github.com/Jopyth/MMM-Remote-Control) is required.
 
    ## Version
    1.0 initial release
