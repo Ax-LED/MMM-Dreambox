@@ -87,7 +87,7 @@ Module.register('MMM-Dreambox', {
 		wrapper.appendChild(Separator);
 
 		//Divs for stations
-		if (this.dataRequest === "DB-SERVICES" || this.dataRequest === "DB-EPGNOW" || this.dataRequest === "DB-TIMER" || this.dataRequest === "DB-SLP") {//Axled can this part of code be optimized, because updateDom() should work anyway
+		//if (this.dataRequest === "DB-SERVICES" || this.dataRequest === "DB-EPGNOW" || this.dataRequest === "DB-TIMER" || this.dataRequest === "DB-SLP") {//Axled can this part of code be optimized, because updateDom() should work anyway
 			for (let index = 0; index < this.anzahl; index++) {
 				var ServiceItem = document.createElement("div");
 				ServiceItem.setAttribute('class', 'db');
@@ -113,7 +113,7 @@ Module.register('MMM-Dreambox', {
 				}
 				wrapper.appendChild(ServiceItem);
 			}
-		} 
+		//} 
 		return wrapper;
 	},
 
@@ -124,7 +124,7 @@ Module.register('MMM-Dreambox', {
 			var x = document.querySelectorAll('div.db, div.selected');
 			
 			if (direction === '+'){
-				if (serviceselected == ''){
+				if (serviceselected === ''){
 					serviceselected = 0;
 				} else {
 					document.getElementById(serviceselected).setAttribute('class','db');//remove old selection
@@ -140,7 +140,7 @@ Module.register('MMM-Dreambox', {
 					}
 				}
 			} else if (direction == '-'){
-				if (serviceselected == ''){
+				if (serviceselected === ''){
 					serviceselected = this.anzahl-1;
 				} else {
 					document.getElementById(serviceselected).setAttribute('class','db');//remove old selection
