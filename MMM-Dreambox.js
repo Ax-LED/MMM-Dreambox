@@ -39,6 +39,14 @@ Module.register('MMM-Dreambox', {
 		return ['MMM-Dreambox.css'];
 	},
 
+	getTranslations: function() {
+		return {
+			de: "translations/de.json",
+			en: "translations/en.json",
+			nl: "translations/nl.json"
+		};
+	},
+
 	start: function() {
 		Log.info('Starting module: ' + this.name);
 		this.loaded = false;
@@ -66,7 +74,9 @@ Module.register('MMM-Dreambox', {
 		var ServiceItem2 = document.createElement("div");
 		ServiceItem2.setAttribute('class', 'float');
 		if (this.model != undefined) {
-			ServiceItem2.innerHTML = 'Modell: ' +this.model+ '&nbsp;';
+			//ServiceItem2.innerHTML = 'Modell: ' +this.model+ '&nbsp;';
+			//this.translate("INFO")
+			ServiceItem2.innerHTML = this.translate("model") +this.model+ '&nbsp;';
 		} /*else if (this.Errormessage != undefined){
 			ServiceItem2.innerHTML = this.Errormessage;
 		}*/
@@ -76,7 +86,8 @@ Module.register('MMM-Dreambox', {
 		if (this.timerstring != undefined){
 			ServiceItem3.innerHTML = '- '+ this.timerstring;
 		} else {
-			ServiceItem3.innerHTML = '- derzeit läuft: (' +this.tuned + ')';
+			//ServiceItem3.innerHTML = '- derzeit läuft: (' +this.tuned + ')';
+			ServiceItem3.innerHTML = '- ' +this.translate("nowplaying")+ '(' +this.tuned + ')';
 		}
 
 		var Separator = document.createElement("hr");
@@ -92,10 +103,16 @@ Module.register('MMM-Dreambox', {
 				var ServiceItem = document.createElement("div");
 				ServiceItem.setAttribute('class', 'db');
 				
-				if(this.epgtitle == undefined){
+				if(this.epg == undefined){
 					ServiceItem.innerHTML = this.sender[index].e2servicename;
 				} else {
-					ServiceItem.innerHTML = this.sender[index].e2servicename +' - ('+moment.unix(this.epgtitle[index].e2eventstart).format('HH:mm')+' '+this.epgtitle[index].e2eventtitle+')';
+					//console.log('Axled epg:',this.epg[index].e2eventstart);
+					if (this.epg[index].e2eventstart === "None") {//no epg information for this service
+						ServiceItem.innerHTML = this.sender[index].e2servicename+' - ('+this.translate("noepginformation")+')';
+					} else {
+						ServiceItem.innerHTML = this.sender[index].e2servicename +' - ('+moment.unix(this.epg[index].e2eventstart).format('HH:mm')+' '+this.epg[index].e2eventtitle+')';
+					}
+					//ServiceItem.innerHTML = this.sender[index].e2servicename +' - ('+moment.unix(this.epg[index].e2eventstart).format('HH:mm')+' '+this.epg[index].e2eventtitle+')';
 				}
 				
 				ServiceItem.setAttribute('id', index);
@@ -194,9 +211,11 @@ Module.register('MMM-Dreambox', {
 
 		if(notification === "DB-PLAY"){
 			document.getElementById(serviceselected).setAttribute('class','selected play');
-			if (onlyplayable === true){//add zap information
+			//test if service is playable, if yes, no zap required 
+			//if (onlyplayable === true){//add zap information
+			if (onlyplayable === true || this.slp[serviceselected].e2isplayable === "True"){//add zap information
 				payload = [this.sender[parseInt(serviceselected)].e2servicereference,''];
-			} else {
+			} else {// zap before streaming required
 				payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
 			}
 			this.sendSocketNotification('DB-PLAY', payload);
@@ -204,6 +223,7 @@ Module.register('MMM-Dreambox', {
 		
 		if(notification === "DB-STOP"){
 			this.sendSocketNotification('DB-STOP', payload);
+			this.sendSocketNotification('FETCH_DATA', payload);
 		}
     },
 	
@@ -215,7 +235,7 @@ Module.register('MMM-Dreambox', {
 				if(payload[0]==='DB-EPGNOW'){
 					this.dataRequest = "DB-EPGNOW";
 					var json=xml2json(payload[1]);
-					this.epgtitle = json.e2eventlist.e2event;
+					this.epg = json.e2eventlist.e2event;
 					this.updateDom();
 				} else if(payload[0]==='DB-ABOUT'){
 					this.dataRequest = "DB-ABOUT";
@@ -244,7 +264,8 @@ Module.register('MMM-Dreambox', {
 					this.dataRequest = payload[0];
 					var json=xml2json(payload[1]);
 					if (json.e2timerlist.e2timer[0].e2state === "2"){//Timer in List are sorted, so only first entry can (should) run, sometimes the second entry runs
-						this.timerstring = 'Aufnahme läuft: '+json.e2timerlist.e2timer[0].e2name+' ('+json.e2timerlist.e2timer[0].e2servicename+')';
+						//this.timerstring = 'Aufnahme läuft: '+json.e2timerlist.e2timer[0].e2name+' ('+json.e2timerlist.e2timer[0].e2servicename+')';
+						this.timerstring = this.translate("recording")+json.e2timerlist.e2timer[0].e2name+' ('+json.e2timerlist.e2timer[0].e2servicename+')';
 						this.updateDom();
 					} 
 				} else if(payload[0]==='DB-SLP'){
