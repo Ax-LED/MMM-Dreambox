@@ -1,31 +1,25 @@
 .float {
-	/*list-style-type: none;*/
 	padding: 0;
 	margin: 0;
 	font-size: 12px;
-	/*line-height: 100%;*/
 	line-height: normal;
 	color: #fff;
 	float: left;
 }
 
 .MMM-Dreambox {
-	/*list-style-type: none;*/
 	padding: 0;
 	margin: 0;
 	font-size: 12px;
-	/*line-height: 100%;*/
 	line-height: normal;
 	color: #fff;
 	clear: both;
 }
 
 .db {
-	/*list-style-type: none;*/
 	padding: 0;
 	margin: 0;
 	font-size: 12px;
-	/*line-height: 100%;*/
 	line-height: normal;
 	color: #fff;
 	clear: both;
@@ -55,7 +49,6 @@
 	content: "\f04b";
 	margin-left: 5px;
 	margin-right: 5px;
-	/*display: inline-block;*/
 	font: normal normal normal 14px/1 FontAwesome;
 	font-size: inherit;
 	text-rendering: auto;
