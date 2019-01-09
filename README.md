@@ -4,7 +4,7 @@ A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMi
 - which service is tuned right now / are there active timer
 - epg for the services with its starting time
 
-![Magic-Mirror Module MMM-Dreambox screenshot1](https://raw.githubusercontent.com/Ax-LED/MMM-Dreambox/master/MMM-Dreambox_screenshot1.jpg)
+![Magic-Mirror Module MMM-Dreambox screenshot1](https://raw.githubusercontent.com/Ax-LED/MMM-Dreambox/dev/MMM-Dreambox_screenshot1.jpg)
 
 ## Requirements
 <b>omxplayer:</b> Omxplayer is normally already installed on raspbian. You can check it by commmanline ````which omxplayer````. The result should be a path like ````/usr/bin/omxplayer````.
