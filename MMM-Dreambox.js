@@ -345,8 +345,7 @@ Module.register('MMM-Dreambox', {
 						document.getElementById('nowplaying').innerHTML = '- ' +this.translate("nowplaying")+ '(' +this.tuned + ')';
 					}
 					//axled neu bouquetinfo
-					//document.getElementById('bouquet').innerHTML = this.bouquet.e2servicename + ' (' + this.anzahl + ')';
-					document.getElementById('bouquet').innerHTML = this.bouquet + ' (' + this.anzahl + ')';
+					//document.getElementById('bouquet').innerHTML = this.bouquet + ' (' + this.anzahl + ')';
 				} else if(payload[0]==='DB-SERVICES'){
 					//console.log('Axled SERVICES: ',moment().format('LTS')); 
 					var json=xml2json(payload[1]);
@@ -363,10 +362,13 @@ Module.register('MMM-Dreambox', {
 						this.anzahl = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service.length;
 						this.bouquet = json.e2servicelistrecursive.e2bouquet.e2servicename;
 					}
+
+					//axled neu bouquetinfo
+					document.getElementById('bouquet').innerHTML = this.bouquet + ' (' + this.anzahl + ')';
+
 					//Add or update servicelist
 					//this.servicelist();
 					this.servicelist2(this.liststart,this.listmax);
-
 
 				} else if(payload[0]==='ERROR'){
 					//console.log('Axled ERROR: ',moment().format('LTS')); 
