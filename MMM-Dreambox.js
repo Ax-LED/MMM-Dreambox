@@ -273,7 +273,8 @@ Module.register('MMM-Dreambox', {
 			}*/
 			
 			//mark playable services (only if timer on single tuner receiver is running)
-			if(this.slp != undefined && this.timerstring != undefined){
+			//if(this.slp != undefined && this.timerstring != undefined){
+			if((this.slp != undefined && this.timerstring != undefined)||(this.slp != undefined && this.timerstring != null)){
 				if(this.slp[index].e2isplayable === "False"){
 					ServiceItem.setAttribute('class', 'inactive');
 					onlyplayable = true;
@@ -338,7 +339,7 @@ Module.register('MMM-Dreambox', {
 					this.model = json.e2abouts.e2about.e2model;
 					this.tuned = json.e2abouts.e2about.e2servicename;
 					document.getElementById('model').innerHTML = this.translate("model") +this.model+ '&nbsp;';
-					if (this.timerstring != undefined){
+					if (this.timerstring != undefined || this.timerstring != null){
 						document.getElementById('nowplaying').innerHTML = '- '+ this.timerstring;
 					} else {
 						//Nowplayinginfo.innerHTML = '- ' +this.translate("nowplaying")+ '(' +this.tuned + ')';
@@ -381,13 +382,16 @@ Module.register('MMM-Dreambox', {
 					var json=xml2json(payload[1]);
 					if (json.e2timerlist.e2timer[0].e2state === "2"){//Timer in List are sorted, so only first entry can (should) run, sometimes the second entry runs
 						this.timerstring = this.translate("recording")+json.e2timerlist.e2timer[0].e2name+' ('+json.e2timerlist.e2timer[0].e2servicename+')';
-					this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
-					} 
+						this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
+					} else if (json.e2timerlist.e2timer[0].e2state === "0"){
+						this.timerstring = null;
+						this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
+					}
 				} else if(payload[0]==='DB-SLP'){//no single Dom-Item to refresh, so storing as variable is fine
 					//console.log('Axled SLP: ',moment().format('LTS')); 
 					var json=xml2json(payload[1]);
 					this.slp = json.e2servicelistplayable.e2serviceplayable;
-				this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
+					this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
 				} 
 			}
 	},
