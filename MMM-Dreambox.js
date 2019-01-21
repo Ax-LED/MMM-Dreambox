@@ -54,7 +54,7 @@ Module.register('MMM-Dreambox', {
 	start: function() {
 		Log.info('Starting module: ' + this.name);
 		this.loaded = false;
-		this.listmax = this.config.listmax
+		this.listmax = this.config.listmax;
 		this.sendSocketNotification('CONFIG', this.config);
 	},
 
@@ -278,7 +278,9 @@ Module.register('MMM-Dreambox', {
 				if(this.slp[index].e2isplayable === "False"){
 					ServiceItem.setAttribute('class', 'inactive');
 					onlyplayable = true;
-				}
+				} 
+			} else {
+				onlyplayable = '';//to reset onlyplayable
 			}
 
 			//listmax,liststart,listcondition: set all unwanted divs to hidden
@@ -312,6 +314,8 @@ Module.register('MMM-Dreambox', {
 			} else {// zap before streaming required
 				payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
 			}
+			//console.log('Axled onlyplayable / payload:',onlyplayable,'/',payload);
+			//console.error('Axled onlyplayable / payload:',onlyplayable,'/',payload);
 			this.sendSocketNotification('DB-PLAY', payload);
 		}
 		
