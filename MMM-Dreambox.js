@@ -9,7 +9,7 @@
 
  var serviceselected = '';
  var onlyplayable = '';
- var IntervalID = '';
+ var IntervalID2 = '';
  var newserviceselected = '';
  var xml2json = '';
  var liststart = 0;
@@ -399,12 +399,12 @@ Module.register('MMM-Dreambox', {
 				} 
 			}
 	},
-	
+
 	startFetchingData: function(interval) {
-		if (IntervalID === ''){
+		if (IntervalID2 === ''){
 			// ... and then repeat in the given interval
-			IntervalID = setInterval(() => {
-			this.sendSocketNotification("FETCH_DATA", '');
+			IntervalID2 = setInterval(() => {
+			this.sendSocketNotification('FETCH_DATA', '')
 			}, interval); 
 		}
 	}
