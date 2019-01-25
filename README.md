@@ -4,7 +4,7 @@ A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMi
 - which service is tuned right now / are there active timer
 - epg for the services with its starting time
 
-![Magic-Mirror Module MMM-Dreambox screenshot1](https://raw.githubusercontent.com/Ax-LED/MMM-Dreambox/master/MMM-Dreambox_screenshot1.jpg)
+![Magic-Mirror Module MMM-Dreambox screenshot1](https://raw.githubusercontent.com/Ax-LED/MMM-Dreambox/dev/MMM-Dreambox_screenshot1.jpg)
 
 ## Requirements
 <b>omxplayer:</b> Omxplayer is normally already installed on raspbian. You can check it by commmanline ````which omxplayer````. The result should be a path like ````/usr/bin/omxplayer````.
@@ -36,7 +36,9 @@ To use this module, add it to the modules array in the `config/config.js` file:
 				apiepgnow: '/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet',
 				apizap: '/web/zap?sRef=',
 				apiTimerlist: '/web/timerlist',
-				apiServicelistplayable: '/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet'
+				apiServicelistplayable: '/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet',
+				apibouquet: 0, //bouquet, if there is more than one under apiservices (/web/getallservices), important apiepgnow and apiServicelistplayable have to match to the selected bouquet
+				listmax: 10
 			}
 		},
 ````
@@ -67,27 +69,36 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>apiabout</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>about</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/about] shows xml datas in a browser within the same network of your Dreambox.</td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>about</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/about] shows xml datas in a browser within the same network of your Dreambox.<br>Default value: <code>'/web/about'</code></td>
 		</tr>
 		<tr>
 			<td><code>apiservices</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>getallservices</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/getallservices] shows xml datas in a browser within the same network of your Dreambox.</td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>getallservices</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/getallservices] shows xml datas in a browser within the same network of your Dreambox.<br>Default value: <code>'/web/getallservices'</code></td>
 		</tr>
 		<tr>
 			<td><code>apiepgnow</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>epgnow</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind bRef= depends on your individual Dreambox settings and can be different from this datas.</td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>epgnow</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind bRef= depends on your individual Dreambox settings and can be different from this datas.<br>Default value: <code>'/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet'</code></td>
 		</tr>
 		<tr>
 			<td><code>apizap</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Zap</code> datas can be send. Test if [http://Ipofyourdreambox:port/web/zap?sRef=[Servicename]] shows xml datas in a browser within the same network of your Dreambox.</td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Zap</code> datas can be send. Test if [http://Ipofyourdreambox:port/web/zap?sRef=[Servicename]] shows xml datas in a browser within the same network of your Dreambox.<br>Default value: <code>'/web/zap?sRef='</code></td>
 		</tr>
 		<tr>
 			<td><code>apiTimerlist</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Timer</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/timerlist] shows xml datas in a browser within the same network of your Dreambox.</td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Timer</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/timerlist] shows xml datas in a browser within the same network of your Dreambox.<br>Default value: <code>'/web/timerlist'</code></td>
 		</tr>
 		<tr>
 			<td><code>apiServicelistplayable</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Servicelistplayable</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind sRef= depends on your individual Dreambox settings and can be different from this datas.</td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Servicelistplayable</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind sRef= depends on your individual Dreambox settings and can be different from this datas.<br>Default value: <code>'/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet'</code></td>
+		</tr>
+		<tr>
+			<td><code>apibouquet</code></td>
+			<td>Optional: Bouquet, if there is more than one more bouquet under apiservices (/web/getallservices). Important <code>apiepgnow</code> and <code>apiServicelistplayable</code> have to match to the selected bouquet.<br>Default value: <code>0</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>listmax</code></td>
+			<td>How many entries of your services should be listed. If your reach the first or the last entry, it will loop through your services.</td>
 		</tr>
    </table>
 
