@@ -349,32 +349,20 @@ Module.register('MMM-Dreambox', {
 						//Nowplayinginfo.innerHTML = '- ' +this.translate("nowplaying")+ '(' +this.tuned + ')';
 						document.getElementById('nowplaying').innerHTML = '- ' +this.translate("nowplaying")+ '(' +this.tuned + ')';
 					}
-					//axled neu bouquetinfo
-					//document.getElementById('bouquet').innerHTML = this.bouquet + ' (' + this.anzahl + ')';
 				} else if(payload[0]==='DB-SERVICES'){
 					//console.log('Axled SERVICES: ',moment().format('LTS')); 
 					var json=xml2json(payload[1]);
-					//Test if more than one bouquet
-					if (Array.isArray(json.e2servicelistrecursive.e2bouquet) === true){//only one e2bouquet
-						//this.sender = json.e2servicelistrecursive.e2bouquet[0].e2servicelist.e2service;
-						//this.anzahl = json.e2servicelistrecursive.e2bouquet[0].e2servicelist.e2service.length;
-						//this.bouquet = json.e2servicelistrecursive.e2bouquet[0].e2servicename;
+					if (Array.isArray(json.e2servicelistrecursive.e2bouquet) === true){//more than one e2bouquet
 						this.sender = json.e2servicelistrecursive.e2bouquet[this.config.apibouquet].e2servicelist.e2service;
 						this.anzahl = json.e2servicelistrecursive.e2bouquet[this.config.apibouquet].e2servicelist.e2service.length;
 						this.bouquet = json.e2servicelistrecursive.e2bouquet[this.config.apibouquet].e2servicename;
-					} else {//more than one e2bouquet
+					} else {//only one e2bouquet
 						this.sender = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service;
 						this.anzahl = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service.length;
 						this.bouquet = json.e2servicelistrecursive.e2bouquet.e2servicename;
 					}
-
-					//axled neu bouquetinfo
 					document.getElementById('bouquet').innerHTML = this.bouquet + ' (' + this.anzahl + ')';
-
-					//Add or update servicelist
-					//this.servicelist();
 					this.servicelist2(this.liststart,this.listmax);
-
 				} else if(payload[0]==='ERROR'){
 					//console.log('Axled ERROR: ',moment().format('LTS')); 
 					this.Errormessage = payload[1];
@@ -384,11 +372,19 @@ Module.register('MMM-Dreambox', {
 				} else if(payload[0]==='DB-TIMER'){//no single Dom-Item to refresh, so storing as variable is fine
 					//console.log('Axled TIMER: ',moment().format('LTS')); 
 					var json=xml2json(payload[1]);
-					if (json.e2timerlist.e2timer[0].e2state === "2"){//Timer in List are sorted, so only first entry can (should) run, sometimes the second entry runs
-						this.timerstring = this.translate("recording")+json.e2timerlist.e2timer[0].e2name+' ('+json.e2timerlist.e2timer[0].e2servicename+')';
+					if (json.e2timerlist.hasOwnProperty('e2timer') === true && Array.isArray(json.e2timerlist.e2timer) === true){//more than one timer in timerlist
+						if (json.e2timerlist.e2timer[0].e2state === "2"){//Timer in List are sorted, so only first entry can (should) run, sometimes the second entry runs
+							this.timerstring = this.translate("recording")+json.e2timerlist.e2timer[0].e2name+' ('+json.e2timerlist.e2timer[0].e2servicename+')';
+						} else if (json.e2timerlist.e2timer[0].e2state === "0"){
+							this.timerstring = null;
+						}
 						this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
-					} else if (json.e2timerlist.e2timer[0].e2state === "0"){
-						this.timerstring = null;
+					} else if (json.e2timerlist.hasOwnProperty('e2timer') === true && Array.isArray(json.e2timerlist.e2timer) === false) {// only one timer
+						if (json.e2timerlist.e2timer.e2state === "2"){//Timer in List are sorted, so only first entry can (should) run, sometimes the second entry runs
+							this.timerstring = this.translate("recording")+json.e2timerlist.e2timer.e2name+' ('+json.e2timerlist.e2timer.e2servicename+')';
+						} else if (json.e2timerlist.e2timer.e2state === "0"){
+							this.timerstring = null;
+						}
 						this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
 					}
 				} else if(payload[0]==='DB-SLP'){//no single Dom-Item to refresh, so storing as variable is fine
