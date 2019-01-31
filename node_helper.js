@@ -66,13 +66,13 @@ module.exports = NodeHelper.create({
 		request({url: myUrl+this.config.apiepgnow }, function (error, response, body) {
 		
 			if (!error && response.statusCode == 200) {
-				body_epgnow = body;
-				self.sendSocketNotification("DATA",['DB-EPGNOW',body_epgnow]);
+				//body_epgnow = body;
+				self.sendSocketNotification("DATA",['DB-EPGNOW',body]);
 			} else {
 				if (!error && response.statusCode == 404){//because sometimes error is null
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiepgnow;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
 				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiepgnow;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -80,13 +80,13 @@ module.exports = NodeHelper.create({
 		//2.Request - About
 		request({url: myUrl+self.config.apiabout }, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				body_about = body;
-				self.sendSocketNotification("DATA",['DB-ABOUT',body_about]);
+				//body_about = body;
+				self.sendSocketNotification("DATA",['DB-ABOUT',body]);
 			} else {
 				if (!error && response.statusCode == 404){
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiabout;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
 				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiabout;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -94,13 +94,13 @@ module.exports = NodeHelper.create({
 		//3.Request - Services
 		request({url: myUrl+this.config.apiservices }, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				body_services = body;
-				self.sendSocketNotification("DATA",['DB-SERVICES',body_services]);
+				//body_services = body;
+				self.sendSocketNotification("DATA",['DB-SERVICES',body]);
 			} else {
 				if (!error && response.statusCode == 404){
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiservices;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
 				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiservices;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -111,9 +111,9 @@ module.exports = NodeHelper.create({
 				self.sendSocketNotification("DATA",['DB-TIMER',body]);
 			} else {
 				if (!error && response.statusCode == 404){
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiTimerlist;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
 				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiTimerlist;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -124,9 +124,9 @@ module.exports = NodeHelper.create({
 				self.sendSocketNotification("DATA",['DB-SLP',body]);
 			} else {
 				if (!error && response.statusCode == 404){
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiServicelistplayable;
-				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiServicelistplayable;
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
+				} else { 
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
