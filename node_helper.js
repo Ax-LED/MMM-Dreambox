@@ -38,13 +38,13 @@ module.exports = NodeHelper.create({
 				var myUrl = this.config.apiBase;
 				request({url: myUrl+this.config.apizap+payload[0] }, function (error, response, body) {
 					if (!error && response.statusCode == 200) {
-						//exec('omxplayer --win 320,180,1600,900 -o both '+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
-						exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without '--live' buffering works
+						//exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without '--live' buffering works
+						exec('omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0], null);//without '--live' buffering works
 					}
 				});
 			} else {
-				//exec('omxplayer --win 320,180,1600,900 -o both '+self.config.apiBase+':8001/'+payload[0], null);//without '--live' buffering works
-				exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
+				//exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
+				exec('omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0], null);//without --live buffering works
 			}
 			self.getData2();
 		}
@@ -56,6 +56,12 @@ module.exports = NodeHelper.create({
 		if (notification === "FETCH_DATA") {
 			self.getData2();
 		}
+	},
+
+	trimPort: function(link) {
+		//x = self.config.apiBase.slice(0,self.config.apiBase.lastIndexOf(":"));
+		link = link.slice(0,link.lastIndexOf(":"));
+		return link;
 	},
 
 	getData2: function() {
@@ -73,7 +79,8 @@ module.exports = NodeHelper.create({
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
 				} else {
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
-					Errormessage = 'Error: ';
+					Errormessage = 'Error: ' + error +' in '+myUrl+self.config.apiepgnow;
+					//Errormessage = 'Error: ';
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -88,7 +95,7 @@ module.exports = NodeHelper.create({
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
 				} else {
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
-					Errormessage = 'Error: ';
+					Errormessage = 'Error: ' + error + ' in '+myUrl+self.config.apiabout;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -103,7 +110,7 @@ module.exports = NodeHelper.create({
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
 				} else {
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
-					Errormessage = 'Error: ';
+					Errormessage = 'Error: ' + error + ' in '+myUrl+self.config.apiservices;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -117,7 +124,7 @@ module.exports = NodeHelper.create({
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
 				} else {
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
-					Errormessage = 'Error: ';
+					Errormessage = 'Error: ' + error + ' in '+myUrl+self.config.apiTimerlist;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
