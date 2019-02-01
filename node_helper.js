@@ -72,7 +72,8 @@ module.exports = NodeHelper.create({
 				if (!error && response.statusCode == 404){//because sometimes error is null
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
 				} else {
-					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
+					Errormessage = 'Error: ';
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -86,7 +87,8 @@ module.exports = NodeHelper.create({
 				if (!error && response.statusCode == 404){
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
 				} else {
-					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
+					Errormessage = 'Error: ';
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -100,7 +102,8 @@ module.exports = NodeHelper.create({
 				if (!error && response.statusCode == 404){
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
 				} else {
-					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
+					Errormessage = 'Error: ';
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -113,7 +116,8 @@ module.exports = NodeHelper.create({
 				if (!error && response.statusCode == 404){
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
 				} else {
-					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
+					Errormessage = 'Error: ';
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -126,7 +130,8 @@ module.exports = NodeHelper.create({
 				if (!error && response.statusCode == 404){
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
 				} else { 
-					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
+					Errormessage = 'Error: ';
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
