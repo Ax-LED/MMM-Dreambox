@@ -59,8 +59,11 @@ module.exports = NodeHelper.create({
 	},
 
 	trimPort: function(link) {
-		//x = self.config.apiBase.slice(0,self.config.apiBase.lastIndexOf(":"));
-		link = link.slice(0,link.lastIndexOf(":"));
+		//console.log('Axled link/poslast/posfirst:'+link+'/'+link.lastIndexOf(":")+'/'+link.indexOf(":")); 
+		if (link.lastIndexOf(":") != link.indexOf(":")) {
+			link = link.slice(0,link.lastIndexOf(":"));
+			//console.log('Axled if:'+link); 
+		}
 		return link;
 	},
 
