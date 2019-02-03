@@ -11,9 +11,6 @@ const NodeHelper = require('node_helper');
 const request = require('request');
 const exec = require("child_process").exec;
 
-var body_about = '';
-var body_services = '';
-var body_epgnow = '';
 var Errormessage = '';
 
 module.exports = NodeHelper.create({
@@ -28,12 +25,13 @@ module.exports = NodeHelper.create({
 		if (notification === 'CONFIG' && self.started == false) {
 			self.config = payload;
 			self.sendSocketNotification("STARTED", true);
-			self.getData2();//Inittal Dataload before timer interval is activated
+			self.getData2();//Initial Dataload before timer interval is activated
 			//self.started = true; //AxLED: if this line is active, Browserrefresh F5 does not work
 			console.log("Starting node helper for: " + self.name);
 		} 
 
 		if (notification === "DB-PLAY") {
+			exec('pkill omxplayer', null);//put a stop before starting a new stream
 			if (payload[1] === 'zap') {
 				var myUrl = this.config.apiBase;
 				request({url: myUrl+this.config.apizap+payload[0] }, function (error, response, body) {
@@ -78,12 +76,12 @@ module.exports = NodeHelper.create({
 				//body_epgnow = body;
 				self.sendSocketNotification("DATA",['DB-EPGNOW',body]);
 			} else {
-				if (!error && response.statusCode == 404){//because sometimes error is null
+				//if (!error && response.statusCode == 404){//because sometimes error is null
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){//because sometimes error is null
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
+					//console.log('Axled 2 Response:'+response.statusCode+response.statusMessage); 
 				} else {
-					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
 					Errormessage = 'Error: ' + error +' in '+myUrl+self.config.apiepgnow;
-					//Errormessage = 'Error: ';
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -94,7 +92,7 @@ module.exports = NodeHelper.create({
 				//body_about = body;
 				self.sendSocketNotification("DATA",['DB-ABOUT',body]);
 			} else {
-				if (!error && response.statusCode == 404){
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
 				} else {
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
@@ -109,7 +107,7 @@ module.exports = NodeHelper.create({
 				//body_services = body;
 				self.sendSocketNotification("DATA",['DB-SERVICES',body]);
 			} else {
-				if (!error && response.statusCode == 404){
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
 				} else {
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
@@ -123,7 +121,7 @@ module.exports = NodeHelper.create({
 			if (!error && response.statusCode == 200) {
 				self.sendSocketNotification("DATA",['DB-TIMER',body]);
 			} else {
-				if (!error && response.statusCode == 404){
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
 				} else {
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
@@ -137,7 +135,7 @@ module.exports = NodeHelper.create({
 			if (!error && response.statusCode == 200) {
 				self.sendSocketNotification("DATA",['DB-SLP',body]);
 			} else {
-				if (!error && response.statusCode == 404){
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
 				} else { 
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
