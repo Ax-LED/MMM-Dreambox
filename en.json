@@ -1,0 +1,7 @@
+{
+    "model": "Model: ",
+    "nowplaying": "now playing: ",
+    "recording": "recording: ",
+    "noepginformation": "no epg",
+    "errornoserviceselected": "No channel selected."
+}
