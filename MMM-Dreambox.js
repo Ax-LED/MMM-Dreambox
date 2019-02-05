@@ -8,6 +8,7 @@
  */
 
  var serviceselected = '';
+ var servicestatus = '';
  var onlyplayable = '';
  var IntervalID2 = '';
  var newserviceselected = '';
@@ -109,33 +110,9 @@ Module.register('MMM-Dreambox', {
 		return wrapper;
 	},
 
-	/*nextplayable: function (selected, direction){
-		//serviceselected = selected;
-		console.log('Axled typeof selected/Prüfung/Länge:',typeof selected,isNaN(selected),selected.length); 
-		var x = document.querySelectorAll('div.db, div.selected');
-		nextselection = '';
-		//console.log('Axled x:',x);
-		if (selected.length === 0){ selectedx = 0;}
-		if (direction === '+'){
-			for (let index = 0; index < x.length; index++) {
-				idonly = x[index].id.substring (12, x[index].id.length);//exctract ID (only number) from ID-String by cutting the first 12 characters
-				//idonly2 = x[x.length-1].id.substring (12, x[x.length-1].id.length);//highest ID playable
-				//console.log('Axled idonly/idonly2:',idonly,'/',idonly2); 
-				console.log('Axled selected/idonly:',selected,'/',idonly); 
-				//console.log('Axled parse selected/idonly:',parseInt(selected),'/',parseInt(idonly)); 
-				//if (paresInt(selected) < parseInt(idonly) && nextselection === ''){
-				if ((parseInt(selected) < parseInt(idonly)) && nextselection === '') {
-					nextselection = idonly;
-					console.log('Axled selected/nextselection:',selected,'/',nextselection); 
-				} else {
-					console.log('Axled else idonly:',idonly); 
-				}
-			}
-		}
-		return nextselection;
-	},*/
-
 	nextselection: function (selected, direction) {
+
+		servicestatus = '';//remove possible play status
 
 		if (onlyplayable === true){
 			serviceselected = selected;
@@ -262,18 +239,15 @@ Module.register('MMM-Dreambox', {
 					ServiceItem.innerHTML = index+1 +' '+ this.sender[index].e2servicename +' - ('+moment.unix(this.epg[index].e2eventstart).format('HH:mm')+' '+this.epg[index].e2eventtitle+')';
 				}
 			}
-			
 
-			//AxLED buggy, it will select the right service, but i wont work, if selection is on a hidden div
-			//mark tuned service
-			/*if((this.tuned === this.sender[index].e2servicename && serviceselected == '')||serviceselected === index) {
-				//console.log('Axled C:'); 
-				ServiceItem.setAttribute('class', 'selected');
-				serviceselected = index;// remember the selected service for play & zapping
-			}*/
-			
+			//Axled keep selected service and servicestatus marked
+			if (serviceselected === index && servicestatus === ''){
+				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected');
+			} else if (serviceselected === index && servicestatus === 'play'){
+				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
+			}
+
 			//mark playable services (only if timer on single tuner receiver is running)
-			//if(this.slp != undefined && this.timerstring != undefined){
 			if((this.slp != undefined && this.timerstring != undefined)||(this.slp != undefined && this.timerstring != null)){
 				if(this.slp[index].e2isplayable === "False"){
 					ServiceItem.setAttribute('class', 'inactive');
@@ -308,21 +282,27 @@ Module.register('MMM-Dreambox', {
 		}
 
 		if(notification === "DB-PLAY"){
-			document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
-			if (onlyplayable === true || this.slp[serviceselected].e2isplayable === "True"){//add zap information
-				payload = [this.sender[parseInt(serviceselected)].e2servicereference,''];
-			} else {// zap before streaming required
-				payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
+			if (serviceselected ===''){
+				this.sendNotification("SHOW_ALERT",{type:"notification",message:"MMM-Dreambox: "+this.translate("errornoserviceselected")});
+			} else {
+				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
+				servicestatus = 'play';
+				if (onlyplayable === true || this.slp[serviceselected].e2isplayable === "True"){//add zap information
+					payload = [this.sender[parseInt(serviceselected)].e2servicereference,''];
+				} else {// zap before streaming required
+					payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
+				}
+				this.sendSocketNotification('DB-PLAY', payload);
 			}
-			//console.log('Axled onlyplayable / payload:',onlyplayable,'/',payload);
-			//console.error('Axled onlyplayable / payload:',onlyplayable,'/',payload);
-			this.sendSocketNotification('DB-PLAY', payload);
 		}
 		
 		if(notification === "DB-STOP"){
-			document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected');
-			this.sendSocketNotification('DB-STOP', payload);
-			this.sendSocketNotification('FETCH_DATA', payload);
+			if (serviceselected !==''){
+				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected');
+				servicestatus = '';
+				this.sendSocketNotification('DB-STOP', payload);
+				this.sendSocketNotification('FETCH_DATA', payload);
+			}
 		}
     },
 	
