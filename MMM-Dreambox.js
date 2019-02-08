@@ -227,7 +227,7 @@ Module.register('MMM-Dreambox', {
 				ServiceItem.setAttribute('id','MMM-Dreambox'+index);
 			} else {//if there, update the content
 				var ServiceItem = document.getElementById('MMM-Dreambox'+index);
-				ServiceItem.setAttribute('class', 'db');//axled, this is needed for unselect at refresh
+				//ServiceItem.setAttribute('class', 'db');//axled, this was needed for unselect at refresh
 			}
 			
 			if(this.epg == undefined){
@@ -242,9 +242,11 @@ Module.register('MMM-Dreambox', {
 
 			//Axled keep selected service and servicestatus marked
 			if (serviceselected === index && servicestatus === ''){
-				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected');
+				//document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected');
+				ServiceItem.setAttribute('class','selected');
 			} else if (serviceselected === index && servicestatus === 'play'){
-				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
+				//document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
+				ServiceItem.setAttribute('class','selected play');
 			}
 
 			//mark playable services (only if timer on single tuner receiver is running)
