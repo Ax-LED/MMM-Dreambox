@@ -37,11 +37,17 @@ module.exports = NodeHelper.create({
 				request({url: myUrl+this.config.apizap+payload[0] }, function (error, response, body) {
 					if (!error && response.statusCode == 200) {
 						//exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without '--live' buffering works
+						console.log('Debug MMM-Dreambox: omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0]);
+						console.log('Debug MMM-Dreambox: zapstate:'+payload[1]);
 						exec('omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0], null);//without '--live' buffering works
+					} else {
+						console.log('Debug MMM-Dreambox: error = true oder response.statusCode <> 200, this message should never be seen');
 					}
 				});
 			} else {
 				//exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
+				console.log('Debug MMM-Dreambox: omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0]);
+				console.log('Debug MMM-Dreambox: zapstate:'+payload[1]);
 				exec('omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0], null);//without --live buffering works
 			}
 			self.getData2();
