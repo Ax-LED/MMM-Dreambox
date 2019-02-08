@@ -254,9 +254,7 @@ Module.register('MMM-Dreambox', {
 				if(this.slp[index].e2isplayable === "False"){
 					ServiceItem.setAttribute('class', 'inactive');
 					onlyplayable = true;
-				} else {
-					ServiceItem.setAttribute('class', 'db');// set class back after timer ended
-				}
+				} 
 			} else {
 				onlyplayable = '';//to reset onlyplayable
 			}
