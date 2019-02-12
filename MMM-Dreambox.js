@@ -54,9 +54,10 @@ Module.register('MMM-Dreambox', {
 
 	start: function() {
 		Log.info('Starting module: ' + this.name);
-		this.loaded = false;
+		//this.loaded = false;
 		this.listmax = this.config.listmax;
 		this.sendSocketNotification('CONFIG', this.config);
+		this.startFetchingData(this.config.refreshInterval);
 	},
 
 	getDom: function() {
@@ -241,13 +242,11 @@ Module.register('MMM-Dreambox', {
 			}
 
 			//Axled keep selected service and servicestatus marked
-			if (serviceselected === index && servicestatus === ''){
-				//document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected');
+			/*if (serviceselected === index && servicestatus === ''){
 				ServiceItem.setAttribute('class','selected');
 			} else if (serviceselected === index && servicestatus === 'play'){
-				//document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
 				ServiceItem.setAttribute('class','selected play');
-			}
+			}*/
 
 			//mark playable services (only if timer on single tuner receiver is running)
 			if((this.slp != undefined && this.timerstring != undefined)||(this.slp != undefined && this.timerstring != null)){
@@ -257,6 +256,14 @@ Module.register('MMM-Dreambox', {
 				} 
 			} else {
 				onlyplayable = '';//to reset onlyplayable
+				//Axled keep selected service and servicestatus marked
+				if (serviceselected === index && servicestatus === ''){
+					ServiceItem.setAttribute('class','selected');
+				} else if (serviceselected === index && servicestatus === 'play'){
+					ServiceItem.setAttribute('class','selected play');
+				} else {
+					ServiceItem.setAttribute('class', 'db');//axled, this was needed for unselect at refresh
+				}
 			}
 
 			//listmax,liststart,listcondition: set all unwanted divs to hidden
@@ -309,10 +316,10 @@ Module.register('MMM-Dreambox', {
     },
 	
  	socketNotificationReceived: function(notification, payload) {
-    		if (notification === "STARTED") {
-				this.startFetchingData(this.config.refreshInterval);
-			} else if (notification === "DATA") {
-				this.loaded = true;
+    		/*if (notification === "STARTED") {
+				//this.startFetchingData(this.config.refreshInterval);
+			} else*/if (notification === "DATA") {
+				//this.loaded = true;
 				//console.log('Axled DATA: ',moment().format('LTS')); 
 				if(payload[0]==='DB-EPGNOW'){//no single Dom-Item to refresh, so storing as variable is fine
 					//console.log('Axled EPGNOW: ',moment().format('LTS')); 

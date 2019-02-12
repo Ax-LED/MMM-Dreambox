@@ -24,11 +24,13 @@ module.exports = NodeHelper.create({
 		var self = this;
 		if (notification === 'CONFIG' && self.started == false) {
 			self.config = payload;
-			self.sendSocketNotification("STARTED", true);
-			self.getData2();//Initial Dataload before timer interval is activated
-			//self.started = true; //AxLED: if this line is active, Browserrefresh F5 does not work
+			self.getData2();
+			self.started = true; //AxLED: if this line is active, Browserrefresh F5 does not work
 			console.log("Starting node helper for: " + self.name);
-		} 
+			//self.sendSocketNotification("STARTED", true);
+		} else if (notification === 'CONFIG' && self.started == true){
+			self.getData2();//Initial Dataload before timer interval is activated
+		}
 
 		if (notification === "DB-PLAY") {
 			exec('pkill omxplayer', null);//put a stop before starting a new stream
@@ -37,17 +39,17 @@ module.exports = NodeHelper.create({
 				request({url: myUrl+this.config.apizap+payload[0] }, function (error, response, body) {
 					if (!error && response.statusCode == 200) {
 						//exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without '--live' buffering works
-						console.log('Debug MMM-Dreambox: omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0]);
-						console.log('Debug MMM-Dreambox: zapstate:'+payload[1]);
+						//console.log('Debug MMM-Dreambox: omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0]);
+						//console.log('Debug MMM-Dreambox: zapstate:'+payload[1]);
 						exec('omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0], null);//without '--live' buffering works
 					} else {
-						console.log('Debug MMM-Dreambox: error = true oder response.statusCode <> 200, this message should never be seen');
+						//console.log('Debug MMM-Dreambox: error = true oder response.statusCode <> 200, this message should never be seen');
 					}
 				});
 			} else {
 				//exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
-				console.log('Debug MMM-Dreambox: omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0]);
-				console.log('Debug MMM-Dreambox: zapstate:'+payload[1]);
+				//console.log('Debug MMM-Dreambox: omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0]);
+				//console.log('Debug MMM-Dreambox: zapstate:'+payload[1]);
 				exec('omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0], null);//without --live buffering works
 			}
 			self.getData2();
