@@ -147,7 +147,7 @@ module.exports = NodeHelper.create({
 					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
 				} else { 
 					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
-					Errormessage = 'Error: ';
+					Errormessage = 'Error: ' + error + ' in '+myUrl+self.config.apiServicelistplayable;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
