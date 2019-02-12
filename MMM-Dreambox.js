@@ -8,6 +8,7 @@
  */
 
  var serviceselected = '';
+ var servicestatus = '';
  var onlyplayable = '';
  var IntervalID2 = '';
  var newserviceselected = '';
@@ -53,9 +54,10 @@ Module.register('MMM-Dreambox', {
 
 	start: function() {
 		Log.info('Starting module: ' + this.name);
-		this.loaded = false;
+		//this.loaded = false;
 		this.listmax = this.config.listmax;
 		this.sendSocketNotification('CONFIG', this.config);
+		this.startFetchingData(this.config.refreshInterval);
 	},
 
 	getDom: function() {
@@ -109,33 +111,9 @@ Module.register('MMM-Dreambox', {
 		return wrapper;
 	},
 
-	/*nextplayable: function (selected, direction){
-		//serviceselected = selected;
-		console.log('Axled typeof selected/Prüfung/Länge:',typeof selected,isNaN(selected),selected.length); 
-		var x = document.querySelectorAll('div.db, div.selected');
-		nextselection = '';
-		//console.log('Axled x:',x);
-		if (selected.length === 0){ selectedx = 0;}
-		if (direction === '+'){
-			for (let index = 0; index < x.length; index++) {
-				idonly = x[index].id.substring (12, x[index].id.length);//exctract ID (only number) from ID-String by cutting the first 12 characters
-				//idonly2 = x[x.length-1].id.substring (12, x[x.length-1].id.length);//highest ID playable
-				//console.log('Axled idonly/idonly2:',idonly,'/',idonly2); 
-				console.log('Axled selected/idonly:',selected,'/',idonly); 
-				//console.log('Axled parse selected/idonly:',parseInt(selected),'/',parseInt(idonly)); 
-				//if (paresInt(selected) < parseInt(idonly) && nextselection === ''){
-				if ((parseInt(selected) < parseInt(idonly)) && nextselection === '') {
-					nextselection = idonly;
-					console.log('Axled selected/nextselection:',selected,'/',nextselection); 
-				} else {
-					console.log('Axled else idonly:',idonly); 
-				}
-			}
-		}
-		return nextselection;
-	},*/
-
 	nextselection: function (selected, direction) {
+
+		servicestatus = '';//remove possible play status
 
 		if (onlyplayable === true){
 			serviceselected = selected;
@@ -250,7 +228,7 @@ Module.register('MMM-Dreambox', {
 				ServiceItem.setAttribute('id','MMM-Dreambox'+index);
 			} else {//if there, update the content
 				var ServiceItem = document.getElementById('MMM-Dreambox'+index);
-				ServiceItem.setAttribute('class', 'db');//axled, this is needed for unselect at refresh
+				//ServiceItem.setAttribute('class', 'db');//axled, this was needed for unselect at refresh
 			}
 			
 			if(this.epg == undefined){
@@ -262,18 +240,15 @@ Module.register('MMM-Dreambox', {
 					ServiceItem.innerHTML = index+1 +' '+ this.sender[index].e2servicename +' - ('+moment.unix(this.epg[index].e2eventstart).format('HH:mm')+' '+this.epg[index].e2eventtitle+')';
 				}
 			}
-			
 
-			//AxLED buggy, it will select the right service, but i wont work, if selection is on a hidden div
-			//mark tuned service
-			/*if((this.tuned === this.sender[index].e2servicename && serviceselected == '')||serviceselected === index) {
-				//console.log('Axled C:'); 
-				ServiceItem.setAttribute('class', 'selected');
-				serviceselected = index;// remember the selected service for play & zapping
+			//Axled keep selected service and servicestatus marked
+			/*if (serviceselected === index && servicestatus === ''){
+				ServiceItem.setAttribute('class','selected');
+			} else if (serviceselected === index && servicestatus === 'play'){
+				ServiceItem.setAttribute('class','selected play');
 			}*/
-			
+
 			//mark playable services (only if timer on single tuner receiver is running)
-			//if(this.slp != undefined && this.timerstring != undefined){
 			if((this.slp != undefined && this.timerstring != undefined)||(this.slp != undefined && this.timerstring != null)){
 				if(this.slp[index].e2isplayable === "False"){
 					ServiceItem.setAttribute('class', 'inactive');
@@ -281,6 +256,14 @@ Module.register('MMM-Dreambox', {
 				} 
 			} else {
 				onlyplayable = '';//to reset onlyplayable
+				//Axled keep selected service and servicestatus marked
+				if (serviceselected === index && servicestatus === ''){
+					ServiceItem.setAttribute('class','selected');
+				} else if (serviceselected === index && servicestatus === 'play'){
+					ServiceItem.setAttribute('class','selected play');
+				} else {
+					ServiceItem.setAttribute('class', 'db');//axled, this was needed for unselect at refresh
+				}
 			}
 
 			//listmax,liststart,listcondition: set all unwanted divs to hidden
@@ -308,29 +291,35 @@ Module.register('MMM-Dreambox', {
 		}
 
 		if(notification === "DB-PLAY"){
-			document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
-			if (onlyplayable === true || this.slp[serviceselected].e2isplayable === "True"){//add zap information
-				payload = [this.sender[parseInt(serviceselected)].e2servicereference,''];
-			} else {// zap before streaming required
-				payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
+			if (serviceselected ===''){
+				this.sendNotification("SHOW_ALERT",{type:"notification",message:"MMM-Dreambox: "+this.translate("errornoserviceselected")});
+			} else {
+				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
+				servicestatus = 'play';
+				if (onlyplayable === true || this.slp[serviceselected].e2isplayable === "True"){//add zap information
+					payload = [this.sender[parseInt(serviceselected)].e2servicereference,''];
+				} else {// zap before streaming required
+					payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
+				}
+				this.sendSocketNotification('DB-PLAY', payload);
 			}
-			//console.log('Axled onlyplayable / payload:',onlyplayable,'/',payload);
-			//console.error('Axled onlyplayable / payload:',onlyplayable,'/',payload);
-			this.sendSocketNotification('DB-PLAY', payload);
 		}
 		
 		if(notification === "DB-STOP"){
-			document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected');
-			this.sendSocketNotification('DB-STOP', payload);
-			this.sendSocketNotification('FETCH_DATA', payload);
+			if (serviceselected !==''){
+				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected');
+				servicestatus = '';
+				this.sendSocketNotification('DB-STOP', payload);
+				this.sendSocketNotification('FETCH_DATA', payload);
+			}
 		}
     },
 	
  	socketNotificationReceived: function(notification, payload) {
-    		if (notification === "STARTED") {
-				this.startFetchingData(this.config.refreshInterval);
-			} else if (notification === "DATA") {
-				this.loaded = true;
+    		/*if (notification === "STARTED") {
+				//this.startFetchingData(this.config.refreshInterval);
+			} else*/if (notification === "DATA") {
+				//this.loaded = true;
 				//console.log('Axled DATA: ',moment().format('LTS')); 
 				if(payload[0]==='DB-EPGNOW'){//no single Dom-Item to refresh, so storing as variable is fine
 					//console.log('Axled EPGNOW: ',moment().format('LTS')); 
@@ -349,32 +338,20 @@ Module.register('MMM-Dreambox', {
 						//Nowplayinginfo.innerHTML = '- ' +this.translate("nowplaying")+ '(' +this.tuned + ')';
 						document.getElementById('nowplaying').innerHTML = '- ' +this.translate("nowplaying")+ '(' +this.tuned + ')';
 					}
-					//axled neu bouquetinfo
-					//document.getElementById('bouquet').innerHTML = this.bouquet + ' (' + this.anzahl + ')';
 				} else if(payload[0]==='DB-SERVICES'){
 					//console.log('Axled SERVICES: ',moment().format('LTS')); 
 					var json=xml2json(payload[1]);
-					//Test if more than one bouquet
-					if (Array.isArray(json.e2servicelistrecursive.e2bouquet) === true){//only one e2bouquet
-						//this.sender = json.e2servicelistrecursive.e2bouquet[0].e2servicelist.e2service;
-						//this.anzahl = json.e2servicelistrecursive.e2bouquet[0].e2servicelist.e2service.length;
-						//this.bouquet = json.e2servicelistrecursive.e2bouquet[0].e2servicename;
+					if (Array.isArray(json.e2servicelistrecursive.e2bouquet) === true){//more than one e2bouquet
 						this.sender = json.e2servicelistrecursive.e2bouquet[this.config.apibouquet].e2servicelist.e2service;
 						this.anzahl = json.e2servicelistrecursive.e2bouquet[this.config.apibouquet].e2servicelist.e2service.length;
 						this.bouquet = json.e2servicelistrecursive.e2bouquet[this.config.apibouquet].e2servicename;
-					} else {//more than one e2bouquet
+					} else {//only one e2bouquet
 						this.sender = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service;
 						this.anzahl = json.e2servicelistrecursive.e2bouquet.e2servicelist.e2service.length;
 						this.bouquet = json.e2servicelistrecursive.e2bouquet.e2servicename;
 					}
-
-					//axled neu bouquetinfo
 					document.getElementById('bouquet').innerHTML = this.bouquet + ' (' + this.anzahl + ')';
-
-					//Add or update servicelist
-					//this.servicelist();
 					this.servicelist2(this.liststart,this.listmax);
-
 				} else if(payload[0]==='ERROR'){
 					//console.log('Axled ERROR: ',moment().format('LTS')); 
 					this.Errormessage = payload[1];
@@ -384,11 +361,19 @@ Module.register('MMM-Dreambox', {
 				} else if(payload[0]==='DB-TIMER'){//no single Dom-Item to refresh, so storing as variable is fine
 					//console.log('Axled TIMER: ',moment().format('LTS')); 
 					var json=xml2json(payload[1]);
-					if (json.e2timerlist.e2timer[0].e2state === "2"){//Timer in List are sorted, so only first entry can (should) run, sometimes the second entry runs
-						this.timerstring = this.translate("recording")+json.e2timerlist.e2timer[0].e2name+' ('+json.e2timerlist.e2timer[0].e2servicename+')';
+					if (json.e2timerlist.hasOwnProperty('e2timer') === true && Array.isArray(json.e2timerlist.e2timer) === true){//more than one timer in timerlist
+						if (json.e2timerlist.e2timer[0].e2state === "2"){//Timer in List are sorted, so only first entry can (should) run, sometimes the second entry runs
+							this.timerstring = this.translate("recording")+json.e2timerlist.e2timer[0].e2name+' ('+json.e2timerlist.e2timer[0].e2servicename+')';
+						} else if (json.e2timerlist.e2timer[0].e2state === "0"){
+							this.timerstring = null;
+						}
 						this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
-					} else if (json.e2timerlist.e2timer[0].e2state === "0"){
-						this.timerstring = null;
+					} else if (json.e2timerlist.hasOwnProperty('e2timer') === true && Array.isArray(json.e2timerlist.e2timer) === false) {// only one timer
+						if (json.e2timerlist.e2timer.e2state === "2"){//Timer in List are sorted, so only first entry can (should) run, sometimes the second entry runs
+							this.timerstring = this.translate("recording")+json.e2timerlist.e2timer.e2name+' ('+json.e2timerlist.e2timer.e2servicename+')';
+						} else if (json.e2timerlist.e2timer.e2state === "0"){
+							this.timerstring = null;
+						}
 						this.servicelist2(this.liststart,this.listmax);//um das Dom mit neuen Daten zu füllen
 					}
 				} else if(payload[0]==='DB-SLP'){//no single Dom-Item to refresh, so storing as variable is fine

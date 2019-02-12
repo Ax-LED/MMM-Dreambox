@@ -11,9 +11,6 @@ const NodeHelper = require('node_helper');
 const request = require('request');
 const exec = require("child_process").exec;
 
-var body_about = '';
-var body_services = '';
-var body_epgnow = '';
 var Errormessage = '';
 
 module.exports = NodeHelper.create({
@@ -27,24 +24,33 @@ module.exports = NodeHelper.create({
 		var self = this;
 		if (notification === 'CONFIG' && self.started == false) {
 			self.config = payload;
-			self.sendSocketNotification("STARTED", true);
-			self.getData2();//Inittal Dataload before timer interval is activated
-			//self.started = true; //AxLED: if this line is active, Browserrefresh F5 does not work
+			self.getData2();
+			self.started = true; //AxLED: if this line is active, Browserrefresh F5 does not work
 			console.log("Starting node helper for: " + self.name);
-		} 
+			//self.sendSocketNotification("STARTED", true);
+		} else if (notification === 'CONFIG' && self.started == true){
+			self.getData2();//Initial Dataload before timer interval is activated
+		}
 
 		if (notification === "DB-PLAY") {
+			exec('pkill omxplayer', null);//put a stop before starting a new stream
 			if (payload[1] === 'zap') {
 				var myUrl = this.config.apiBase;
 				request({url: myUrl+this.config.apizap+payload[0] }, function (error, response, body) {
 					if (!error && response.statusCode == 200) {
-						//exec('omxplayer --win 320,180,1600,900 -o both '+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
-						exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without '--live' buffering works
+						//exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without '--live' buffering works
+						//console.log('Debug MMM-Dreambox: omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0]);
+						//console.log('Debug MMM-Dreambox: zapstate:'+payload[1]);
+						exec('omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0], null);//without '--live' buffering works
+					} else {
+						//console.log('Debug MMM-Dreambox: error = true oder response.statusCode <> 200, this message should never be seen');
 					}
 				});
 			} else {
-				//exec('omxplayer --win 320,180,1600,900 -o both '+self.config.apiBase+':8001/'+payload[0], null);//without '--live' buffering works
-				exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
+				//exec('omxplayer '+self.config.omxargs+self.config.apiBase+':8001/'+payload[0], null);//without --live buffering works
+				//console.log('Debug MMM-Dreambox: omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0]);
+				//console.log('Debug MMM-Dreambox: zapstate:'+payload[1]);
+				exec('omxplayer '+self.config.omxargs+self.trimPort(self.config.apiBase)+':8001/'+payload[0], null);//without --live buffering works
 			}
 			self.getData2();
 		}
@@ -58,6 +64,15 @@ module.exports = NodeHelper.create({
 		}
 	},
 
+	trimPort: function(link) {
+		//console.log('Axled link/poslast/posfirst:'+link+'/'+link.lastIndexOf(":")+'/'+link.indexOf(":")); 
+		if (link.lastIndexOf(":") != link.indexOf(":")) {
+			link = link.slice(0,link.lastIndexOf(":"));
+			//console.log('Axled if:'+link); 
+		}
+		return link;
+	},
+
 	getData2: function() {
 		var self = this;
 		var myUrl = this.config.apiBase;
@@ -66,13 +81,15 @@ module.exports = NodeHelper.create({
 		request({url: myUrl+this.config.apiepgnow }, function (error, response, body) {
 		
 			if (!error && response.statusCode == 200) {
-				body_epgnow = body;
-				self.sendSocketNotification("DATA",['DB-EPGNOW',body_epgnow]);
+				//body_epgnow = body;
+				self.sendSocketNotification("DATA",['DB-EPGNOW',body]);
 			} else {
-				if (!error && response.statusCode == 404){//because sometimes error is null
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiepgnow;
+				//if (!error && response.statusCode == 404){//because sometimes error is null
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){//because sometimes error is null
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiepgnow;
+					//console.log('Axled 2 Response:'+response.statusCode+response.statusMessage); 
 				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiepgnow;
+					Errormessage = 'Error: ' + error +' in '+myUrl+self.config.apiepgnow;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -80,13 +97,14 @@ module.exports = NodeHelper.create({
 		//2.Request - About
 		request({url: myUrl+self.config.apiabout }, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				body_about = body;
-				self.sendSocketNotification("DATA",['DB-ABOUT',body_about]);
+				//body_about = body;
+				self.sendSocketNotification("DATA",['DB-ABOUT',body]);
 			} else {
-				if (!error && response.statusCode == 404){
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiabout;
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
 				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiabout;
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiabout;
+					Errormessage = 'Error: ' + error + ' in '+myUrl+self.config.apiabout;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -94,13 +112,14 @@ module.exports = NodeHelper.create({
 		//3.Request - Services
 		request({url: myUrl+this.config.apiservices }, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
-				body_services = body;
-				self.sendSocketNotification("DATA",['DB-SERVICES',body_services]);
+				//body_services = body;
+				self.sendSocketNotification("DATA",['DB-SERVICES',body]);
 			} else {
-				if (!error && response.statusCode == 404){
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiservices;
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
 				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiservices;
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiservices;
+					Errormessage = 'Error: ' + error + ' in '+myUrl+self.config.apiservices;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -110,10 +129,11 @@ module.exports = NodeHelper.create({
 			if (!error && response.statusCode == 200) {
 				self.sendSocketNotification("DATA",['DB-TIMER',body]);
 			} else {
-				if (!error && response.statusCode == 404){
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiTimerlist;
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
 				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiTimerlist;
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiTimerlist;
+					Errormessage = 'Error: ' + error + ' in '+myUrl+self.config.apiTimerlist;
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}
@@ -123,10 +143,11 @@ module.exports = NodeHelper.create({
 			if (!error && response.statusCode == 200) {
 				self.sendSocketNotification("DATA",['DB-SLP',body]);
 			} else {
-				if (!error && response.statusCode == 404){
-					Errormessage = 'Error: '+response.statusCode+' in '+myUrl+self.config.apiServicelistplayable;
-				} else {
-					Errormessage = 'Error: '+error.code+' in '+myUrl+self.config.apiServicelistplayable;
+				if ((!error && response.statusCode == 404)||(!error && response.statusCode == 401)){
+					Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
+				} else { 
+					//Errormessage = 'Error: ' + response.statusCode + response.statusMessage + ' in '+myUrl+self.config.apiServicelistplayable;
+					Errormessage = 'Error: ';
 				}
 				self.sendSocketNotification("DATA",['ERROR',Errormessage]);
 			}

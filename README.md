@@ -12,6 +12,10 @@ A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMi
 <b>MPG2 Codec</b>: On my Dreambox (dm800se) for streaming HD stations the mpg2 codec was necessary. You can check this by commandline ````vcgencmd codec_enabled MPG2````. The result can either be ````MPG2=enabled```` or ````MPG2=disabled````. If case "disabled" and if you want to stream mpg2 you have to buy a codec on [http://www.raspberrypi.com/mpeg-2-license-key/](http://www.raspberrypi.com/mpeg-2-license-key/).
 <br>
 <b>MMM-Remote-Control:</b> [MMM-Remote-Control](https://github.com/Jopyth/MMM-Remote-Control) is required, if you want to use the sample links for communication, as mentioned at the end of this file.
+<br>
+<b>Enigma2 Receiver (Dreambox / VU+):</b> 
+- Make sure in settings (Extensions -> Webinterface) the value ````Enable HTTP Authentication```` is set to ````no````, otherwise you will get the error ````401 Unauthorized````.
+- Make sure your receiver is switched ````on````, ````standby```` and ````deep standby```` wont work, as the webinterface is down in this modes.
 
 ## Installing the module
 Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~/MagicMirror/modules/ )`:
