@@ -26,6 +26,7 @@ git clone https://github.com/Ax-LED/MMM-Dreambox
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file:
+<b>Minimum Configuration:</b>
 ````javascript
 {
 			module: 'MMM-Dreambox',
@@ -33,16 +34,35 @@ To use this module, add it to the modules array in the `config/config.js` file:
 			position: 'top_left',
 			config: {
 				apiBase: 'http://Ipofyourdreambox:port',
-				omxargs: ' --win 320,180,1600,900  -o both ',
+				omxargs: ' --win 320,180,1600,900 -o both ',
 				refreshInterval: 1000 * 30, //refresh every 30 seconds
+				apibouquet: 0, //bouquet, if there is more than one under apiservices (/web/getallservices), important apiepgnow and apiServicelistplayable have to match to the selected bouquet
+				apiRecordingsID: 0, //which recording folder should be listed
+				listmax: 10
+			}
+		},
+````
+<b>Advanced Configuration:</b>
+````javascript
+{
+			module: 'MMM-Dreambox',
+			header: 'Dreambox',
+			position: 'top_left',
+			config: {
+				apiBase: 'http://Ipofyourdreambox:port',
+				omxargs: ' --win 320,180,1600,900 -o both ',
+				refreshInterval: 1000 * 30, //refresh every 30 seconds
+				apibouquet: 0, //bouquet, if there is more than one under apiservices (/web/getallservices), important apiepgnow and apiServicelistplayable have to match to the selected bouquet
+				apiRecordingsID: 0, //which recording folder should be listed
+				listmax: 10,
 				apiabout: '/web/about',
 				apiservices: '/web/getallservices',
-				apiepgnow: '/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet',
+				apiepgnow: '/web/epgnow?bRef=',
 				apizap: '/web/zap?sRef=',
 				apiTimerlist: '/web/timerlist',
-				apiServicelistplayable: '/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet',
-				apibouquet: 0, //bouquet, if there is more than one under apiservices (/web/getallservices), important apiepgnow and apiServicelistplayable have to match to the selected bouquet
-				listmax: 10
+				apiServicelistplayable: '/web/servicelistplayable?sRef=',
+				apiLocations: '/web/getlocations', //where are the recording folders listed
+				apiMovielist: '/web/movielist?dirname=' //link for opening recording folder and list recordings
 			}
 		},
 ````
