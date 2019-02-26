@@ -136,7 +136,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>apiMovielist</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Recording</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/movielist?dirname=] shows xml datas in a browser within the same network of your Dreambox.<br>Everything behind dirname= depends on your individual Dreambox settings and will be completed by <code>apiRecordingsID</code>Default value: <code>'/web/movielist?dirname='</code>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Recording</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/movielist?dirname=] shows xml datas in a browser within the same network of your Dreambox.<br>Everything behind dirname= depends on your individual Dreambox settings and will be completed by <code>apiRecordingsID</code><br>Default value: <code>'/web/movielist?dirname='</code>
 			</td>
 		</tr>
    </table>
