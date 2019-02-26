@@ -148,8 +148,13 @@ The following properties can be configured:
    - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-SERVICE-PREV</code> selects the previous service in your list
    - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-PLAY</code> starts streaming the selected service with omxplayer
    - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-STOP</code> stops streaming and quiting omxplayer
+   - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-RECORDINGS</code> selects recordings mode
+   - <code>yourmmip:8080/remote?action=NOTIFICATION&notification=DB-TUNER</code> selects tuner mode
    
    To use this examples the module [MMM-Remote-Control](https://github.com/Jopyth/MMM-Remote-Control) is required.
 
    ## Version
+   2.0 Changelog:
+   - optimized configuration options, to reduce complexity
+   - added recordings mode
    1.0 initial release
