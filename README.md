@@ -26,6 +26,7 @@ git clone https://github.com/Ax-LED/MMM-Dreambox
 ## Using the module
 
 To use this module, add it to the modules array in the `config/config.js` file:
+<br>
 <b>Minimum Configuration:</b>
 ````javascript
 {
@@ -92,6 +93,20 @@ The following properties can be configured:
 			<td>How often should the datas be refreshed.</td>
 		</tr>
 		<tr>
+			<td><code>apibouquet</code></td>
+			<td>Optional: Bouquet, if there is more than one more bouquet under apiservices (/web/getallservices). Important <code>apiepgnow</code> and <code>apiServicelistplayable</code> have to match to the selected bouquet.<br>Default value: <code>0</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>apiRecordingsID</code></td>
+			<td>Optional: Index of folder for recordings. Can be checked under apiservices (/web/getlocations).<br>Default value: <code>0</code>
+			</td>
+		</tr>
+		<tr>
+			<td><code>listmax</code></td>
+			<td>How many entries of your services should be listed. If your reach the first or the last entry, it will loop through your services or recordings.</td>
+		</tr>
+		<tr>
 			<td><code>apiabout</code></td>
 			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>about</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/about] shows xml datas in a browser within the same network of your Dreambox.<br>Default value: <code>'/web/about'</code></td>
 		</tr>
@@ -101,7 +116,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>apiepgnow</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>epgnow</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind bRef= depends on your individual Dreambox settings and can be different from this datas.<br>Default value: <code>'/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet'</code></td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>epgnow</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind bRef= depends on your individual Dreambox settings and will be completed by <code>'apibouquet</code>.<br>Default value: <code>'/web/epgnow?bRef='</code></td>
 		</tr>
 		<tr>
 			<td><code>apizap</code></td>
@@ -113,16 +128,16 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>apiServicelistplayable</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Servicelistplayable</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind sRef= depends on your individual Dreambox settings and can be different from this datas.<br>Default value: <code>'/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet'</code></td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Servicelistplayable</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind sRef= depends on your individual Dreambox settings and will be completed by <code>apibouquet</code>.<br>Default value: <code>'/web/servicelistplayable?sRef='</code></td>
 		</tr>
 		<tr>
-			<td><code>apibouquet</code></td>
-			<td>Optional: Bouquet, if there is more than one more bouquet under apiservices (/web/getallservices). Important <code>apiepgnow</code> and <code>apiServicelistplayable</code> have to match to the selected bouquet.<br>Default value: <code>0</code>
+			<td><code>apiLocations</code></td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Recording</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/getlocations] shows xml datas in a browser within the same network of your Dreambox.<br>Default value: <code>'/web/getlocations'</code></td>
+		</tr>
+		<tr>
+			<td><code>apiMovielist</code></td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Recording</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/movielist?dirname=] shows xml datas in a browser within the same network of your Dreambox.<br>Everything behind dirname= depends on your individual Dreambox settings and will be completed by <code>apiRecordingsID</code>Default value: <code>'/web/movielist?dirname='</code>
 			</td>
-		</tr>
-		<tr>
-			<td><code>listmax</code></td>
-			<td>How many entries of your services should be listed. If your reach the first or the last entry, it will loop through your services.</td>
 		</tr>
    </table>
 
