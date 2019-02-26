@@ -158,4 +158,5 @@ The following properties can be configured:
    2.0 Changelog:
    - optimized configuration options, to reduce complexity
    - added recordings mode
+   
    1.0 initial release
