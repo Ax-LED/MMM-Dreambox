@@ -117,7 +117,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>apiepgnow</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>epgnow</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind bRef= depends on your individual Dreambox settings and will be completed by <code>'apibouquet</code>.<br>Default value: <code>'/web/epgnow?bRef='</code></td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>epgnow</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/epgnow?bRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET<br>%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind bRef= depends on your individual Dreambox settings and will be completed by <code>'apibouquet</code>.<br>Default value: <code>'/web/epgnow?bRef='</code></td>
 		</tr>
 		<tr>
 			<td><code>apizap</code></td>
@@ -129,7 +129,7 @@ The following properties can be configured:
 		</tr>
 		<tr>
 			<td><code>apiServicelistplayable</code></td>
-			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Servicelistplayable</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind sRef= depends on your individual Dreambox settings and will be completed by <code>apibouquet</code>.<br>Default value: <code>'/web/servicelistplayable?sRef='</code></td>
+			<td>Additional string to apiBase pointing to the xml file of your Dreambox where some <code>Servicelistplayable</code> datas can be found. Test if [http://Ipofyourdreambox:port/web/servicelistplayable?sRef=1%3A7%3A1%3A0%3A0%3A0%3A0%3A0%3A0%3A0%3AFROM%20BOUQUET<br>%20%22userbouquet.favourites.tv%22%20ORDER%20BY%20bouquet] shows xml datas in a browser within the same network of your Dreambox. Everything behind sRef= depends on your individual Dreambox settings and will be completed by <code>apibouquet</code>.<br>Default value: <code>'/web/servicelistplayable?sRef='</code></td>
 		</tr>
 		<tr>
 			<td><code>apiLocations</code></td>
