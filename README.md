@@ -31,42 +31,42 @@ To use this module, add it to the modules array in the `config/config.js` file:
 <b>Minimum Configuration:</b>
 ````javascript
 {
-			module: 'MMM-Dreambox',
-			header: 'Dreambox',
-			position: 'top_left',
-			config: {
-				apiBase: 'http://Ipofyourdreambox:port',
-				omxargs: ' --win 320,180,1600,900 -o both ',
-				refreshInterval: 1000 * 30, //refresh every 30 seconds
-				apibouquet: 0, //bouquet, if there is more than one under apiservices (/web/getallservices), important apiepgnow and apiServicelistplayable have to match to the selected bouquet
-				apiRecordingsID: 0, //which recording folder should be listed
-				listmax: 10
-			}
-		},
+	module: 'MMM-Dreambox',
+	header: 'Dreambox',
+	position: 'top_left',
+	config: {
+		apiBase: 'http://Ipofyourdreambox:port',
+		omxargs: ' --win 320,180,1600,900 -o both ',
+		refreshInterval: 1000 * 30, //refresh every 30 seconds
+		apibouquet: 0, //bouquet, if there is more than one under apiservices (/web/getallservices)
+		apiRecordingsID: 0, //which recording folder should be listed
+		listmax: 10
+	}
+},
 ````
 <b>Advanced Configuration:</b>
 ````javascript
 {
-			module: 'MMM-Dreambox',
-			header: 'Dreambox',
-			position: 'top_left',
-			config: {
-				apiBase: 'http://Ipofyourdreambox:port',
-				omxargs: ' --win 320,180,1600,900 -o both ',
-				refreshInterval: 1000 * 30, //refresh every 30 seconds
-				apibouquet: 0, //bouquet, if there is more than one under apiservices (/web/getallservices), important apiepgnow and apiServicelistplayable have to match to the selected bouquet
-				apiRecordingsID: 0, //which recording folder should be listed
-				listmax: 10,
-				apiabout: '/web/about',
-				apiservices: '/web/getallservices',
-				apiepgnow: '/web/epgnow?bRef=',
-				apizap: '/web/zap?sRef=',
-				apiTimerlist: '/web/timerlist',
-				apiServicelistplayable: '/web/servicelistplayable?sRef=',
-				apiLocations: '/web/getlocations', //where are the recording folders listed
-				apiMovielist: '/web/movielist?dirname=' //link for opening recording folder and list recordings
-			}
-		},
+	module: 'MMM-Dreambox',
+	header: 'Dreambox',
+	position: 'top_left',
+	config: {
+		apiBase: 'http://Ipofyourdreambox:port',
+		omxargs: ' --win 320,180,1600,900 -o both ',
+		refreshInterval: 1000 * 30, //refresh every 30 seconds
+		apibouquet: 0, //bouquet, if there is more than one under apiservices (/web/getallservices),
+		apiRecordingsID: 0, //which recording folder should be listed
+		listmax: 10,
+		apiabout: '/web/about',
+		apiservices: '/web/getallservices',
+		apiepgnow: '/web/epgnow?bRef=',
+		apizap: '/web/zap?sRef=',
+		apiTimerlist: '/web/timerlist',
+		apiServicelistplayable: '/web/servicelistplayable?sRef=',
+		apiLocations: '/web/getlocations', //where are the recording folders listed
+		apiMovielist: '/web/movielist?dirname=' //link for opening recording folder and list recordings
+	}
+},
 ````
 ## Configuration options
 
