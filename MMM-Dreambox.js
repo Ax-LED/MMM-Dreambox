@@ -226,60 +226,6 @@ Module.register('MMM-Dreambox', {
 		return newserviceselected;
 	},
 
-	/*servicelist2old: function(liststart,listcondition){
-		//console.log('Axled serviceselected/Länge/typeof:',moment().format('LTS'),' ',serviceselected,'/',serviceselected.length,'/',typeof serviceselected); 
-		for (let index = 0; index < this.anzahl; index++) {
-			if (document.getElementById('MMM-Dreambox'+index) === null) {//if div not there, create and append it
-				var ServiceItem = document.createElement("div");
-				ServiceItem.setAttribute('class', 'db');
-				ServiceItem.setAttribute('id','MMM-Dreambox'+index);
-			} else {//if there, update the content
-				var ServiceItem = document.getElementById('MMM-Dreambox'+index);
-				//ServiceItem.setAttribute('class', 'db');//axled, this was needed for unselect at refresh
-			}
-			
-			if(this.epg == undefined){
-				ServiceItem.innerHTML = index+1 +' '+ this.sender[index].e2servicename;
-			} else {
-				if (this.epg[index].e2eventstart === "None") {//no epg information for this service
-					ServiceItem.innerHTML = index+1 +' '+ this.sender[index].e2servicename+' - ('+this.translate("noepginformation")+')';
-				} else {
-					ServiceItem.innerHTML = index+1 +' '+ this.sender[index].e2servicename +' - ('+moment.unix(this.epg[index].e2eventstart).format('HH:mm')+' '+this.epg[index].e2eventtitle+')';
-				}
-			}
-
-			//mark playable services (only if timer on single tuner receiver is running)
-			if((this.slp != undefined && this.timerstring != undefined)||(this.slp != undefined && this.timerstring != null)){
-				if(this.slp[index].e2isplayable === "False"){
-					ServiceItem.setAttribute('class', 'inactive');
-					onlyplayable = true;
-				} 
-			} else {
-				onlyplayable = '';//to reset onlyplayable
-				//Axled keep selected service and servicestatus marked
-				if (serviceselected === index && servicestatus === ''){
-					ServiceItem.setAttribute('class','selected');
-				} else if (serviceselected === index && servicestatus === 'play'){
-					ServiceItem.setAttribute('class','selected play');
-				} else {
-					ServiceItem.setAttribute('class', 'db');//axled, this was needed for unselect at refresh
-				}
-			}
-
-			//listmax,liststart,listcondition: set all unwanted divs to hidden
-			if (index < liststart || index >= listcondition){
-				ServiceItem.setAttribute('style','display: none;');
-			} else {
-				ServiceItem.removeAttribute('style');
-			}
-			
-			if (document.getElementById('MMM-Dreambox'+index) === null) {//if div not there, create and append it
-				document.getElementById('MMM-Dreambox').appendChild(ServiceItem);//ID of parent item
-			} 
-		}
-		return false;
-	},*/
-
 	servicelist2: function(liststart,listcondition){
 		//console.log('Axled serviceselected/Länge/typeof:',moment().format('LTS'),' ',serviceselected,'/',serviceselected.length,'/',typeof serviceselected); 
 		for (let index = 0; index < this.anzahl; index++) {
@@ -356,10 +302,8 @@ Module.register('MMM-Dreambox', {
 			} else {
 				document.getElementById('MMM-Dreambox'+serviceselected).setAttribute('class','selected play');
 				servicestatus = 'play';
-				//
 				if(this.mode === 'Recordings') {
 					payload = [encodeURI(this.sender[parseInt(serviceselected)].e2filename),this.mode];
-					console.log('Axled PLAY:',payload); 
 				} else {
 					if (onlyplayable === true || this.slp[serviceselected].e2isplayable === "True"){//add zap information
 						payload = [this.sender[parseInt(serviceselected)].e2servicereference,''];
@@ -367,7 +311,6 @@ Module.register('MMM-Dreambox', {
 						payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
 					}
 				}
-				//
 				this.sendSocketNotification('DB-PLAY', payload);
 			}
 		}
