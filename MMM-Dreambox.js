@@ -305,7 +305,12 @@ Module.register('MMM-Dreambox', {
 				if(this.mode === 'Recordings') {
 					payload = [encodeURI(this.sender[parseInt(serviceselected)].e2filename),this.mode];
 				} else {
-					if (onlyplayable === true || this.slp[serviceselected].e2isplayable === "True"){//add zap information
+					/*if (onlyplayable === true || this.slp[serviceselected].e2isplayable === "True"){//add zap information
+						payload = [this.sender[parseInt(serviceselected)].e2servicereference,''];
+					} else {// zap before streaming required
+						payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];
+					}*/
+					if (onlyplayable === true){//add zap information
 						payload = [this.sender[parseInt(serviceselected)].e2servicereference,''];
 					} else {// zap before streaming required
 						payload = [this.sender[parseInt(serviceselected)].e2servicereference,'zap'];

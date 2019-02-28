@@ -350,7 +350,7 @@ module.exports = NodeHelper.create({
 				json = parser.xml2json(body);
 				//get ref for following getData functions: epgnow und servicelistplayable
 				if (Array.isArray(json.e2servicelistrecursive.e2bouquet) === true){//more than one e2bouquet
-					ref = encodeURIComponent(json.e2servicelistrecursive.e2bouquet[this.config.apibouquet].e2servicereference).replace(/%26quot%3B/g,"%22");//encodeURIComponent() also encode : (colon); replace is needed for the " (quote)
+					ref = encodeURIComponent(json.e2servicelistrecursive.e2bouquet[self.config.apibouquet].e2servicereference).replace(/%26quot%3B/g,"%22");//encodeURIComponent() also encode : (colon); replace is needed for the " (quote)
 				} else {//only one e2bouquet
 					ref = encodeURIComponent(json.e2servicelistrecursive.e2bouquet.e2servicereference).replace(/%26quot%3B/g,"%22");//encodeURIComponent() also encode : (colon)
 				}
