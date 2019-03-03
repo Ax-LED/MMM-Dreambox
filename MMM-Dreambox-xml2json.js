@@ -1,8 +1,8 @@
 'use strict';
 
-/*module.exports = {
+module.exports = {
     xml2json: xml2json
-};*/
+};
 
 //***********************************************************************
 // Main function. Clears the given xml and then starts the recursion
