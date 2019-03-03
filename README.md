@@ -158,5 +158,6 @@ The following properties can be configured:
    2.0 Changelog:
    - optimized configuration options, to reduce complexity
    - added recordings mode
+   - extended notification system to change to select recordings and tuner mode
    
    1.0 initial release
