@@ -23,6 +23,14 @@ Clone this repository in your `~/MagicMirror/modules/` folder `( $ cd ~/MagicMir
 ````javascript
 git clone https://github.com/Ax-LED/MMM-Dreambox
 ````
+change to directory MMM-Dreambox
+````javascript
+cd MMM-Dreambox
+````
+run npm install
+````javascript
+npm install
+````
 
 ## Using the module
 
