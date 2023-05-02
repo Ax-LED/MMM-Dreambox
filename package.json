@@ -1,0 +1,23 @@
+{
+  "name": "mmm-dreambox",
+  "version": "1.0.0",
+  "description": "A module to connect a Dreambox or a Enigma2 Receiver (like VU or VU+) to MagicMirror. You can select services of your dreambox and stream them via omxplayer. The module shows some further informations like: - model of your dreambox - which service is tuned right now / are there active timer - epg for the services with its starting time - stream recordings",
+  "main": "MMM-Dreambox.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ax-LED/MMM-Dreambox.git"
+  },
+  "keywords": [],
+  "author": "",
+  "dependencies": {
+    "request": "latest"
+},
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ax-LED/MMM-Dreambox/issues"
+  },
+  "homepage": "https://github.com/Ax-LED/MMM-Dreambox#readme"
+}
